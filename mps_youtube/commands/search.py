@@ -612,16 +612,15 @@ def yt_url(url, print_title=0):
     for u in url_list:
         try:
             p = util.get_pafy(u)
-
+            g.browse_mode = "normal"
+            v = Video(p.videoid, p.title, p.length)
+            g.model.songs.append(v)
+            
         except (IOError, ValueError) as e:
             g.message = c.r + str(e) + c.w
             g.content = g.content or content.generate_songlist_display(
                     zeromsg=g.message)
-            return
 
-        g.browse_mode = "normal"
-        v = Video(p.videoid, p.title, p.length)
-        g.model.songs.append(v)
 
     if not g.command_line:
         g.content = content.generate_songlist_display()
